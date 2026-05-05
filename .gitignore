@@ -1,0 +1,15 @@
+# Go
+
+*.exe
+*.exe~
+*.dll
+*.so
+*.dylib
+
+.vscode/
+*.prof
+Desktop.ini
+vendor/
+.DS_Store
+coverage.txt
+*~

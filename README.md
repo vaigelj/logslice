@@ -29,6 +29,7 @@ Flags:
   -pattern string  Regex pattern to filter log lines
   -format string   Timestamp format (default: "2006-01-02 15:04:05")
   -o string        Output file (default: stdout)
+  -v               Print version and exit
 ```
 
 ### Examples
@@ -46,6 +47,11 @@ logslice -pattern "ERROR|WARN" app.log
 Combine time range and pattern:
 ```bash
 logslice -start "2024-01-15 08:00:00" -end "2024-01-15 09:00:00" -pattern "ERROR" -o errors.log app.log
+```
+
+Use a custom timestamp format:
+```bash
+logslice -format "2006/01/02 15:04:05" -start "2024/01/15 08:00:00" -end "2024/01/15 09:00:00" app.log
 ```
 
 ---

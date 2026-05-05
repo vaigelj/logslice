@@ -78,3 +78,12 @@ func (p *Processor) Run(ctx context.Context) (*output.Stats, error) {
 
 	return stats, nil
 }
+
+// RunWithFilter returns a new Processor with the given filter applied on top
+// of any existing filter, then calls Run. This is a convenience method for
+// one-off filter overrides without mutating the original Processor.
+func (p *Processor) RunWithFilter(ctx context.Context, f filter.Filter) (*output.Stats, error) {
+	overridden := *p
+	overridden.cfg.Filter = f
+	return overridden.Run(ctx)
+}

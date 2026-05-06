@@ -9,6 +9,9 @@ import (
 // BuildFilterChain constructs a filter.Chain from the parsed Config.
 // Filters are added in order: prefix (if set), regex (if set),
 // time-range (if set), and each is optionally inverted.
+//
+// Returns an error if any individual filter fails to initialize,
+// for example due to an invalid regex pattern or time layout.
 func BuildFilterChain(cfg *Config) (*filter.Chain, error) {
 	var filters []filter.Filter
 
@@ -19,11 +22,10 @@ func BuildFilterChain(cfg *Config) (*filter.Chain, error) {
 		}
 		var f filter.Filter = pf
 		if cfg.InvertPrefix {
-			inv, err := filter.NewInvertFilter(f)
+			f, err = filter.NewInvertFilter(f)
 			if err != nil {
 				return nil, fmt.Errorf("invert prefix filter: %w", err)
 			}
-			f = inv
 		}
 		filters = append(filters, f)
 	}
@@ -35,11 +37,10 @@ func BuildFilterChain(cfg *Config) (*filter.Chain, error) {
 		}
 		var f filter.Filter = rf
 		if cfg.Invert {
-			inv, err := filter.NewInvertFilter(f)
+			f, err = filter.NewInvertFilter(f)
 			if err != nil {
 				return nil, fmt.Errorf("invert regex filter: %w", err)
 			}
-			f = inv
 		}
 		filters = append(filters, f)
 	}

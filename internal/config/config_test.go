@@ -75,3 +75,15 @@ func TestParse_TimeRangeWithoutLayout(t *testing.T) {
 		t.Fatalf("unexpected error: %v", err)
 	}
 }
+
+func TestParse_TimeStartAfterTimeEnd(t *testing.T) {
+	// time-start must not be after time-end; expect a validation error
+	args := []string{
+		"-time-start", "2024-12-31T00:00:00Z",
+		"-time-end", "2024-01-01T00:00:00Z",
+	}
+	_, err := Parse(args, io.Discard)
+	if err == nil {
+		t.Fatal("expected error when time-start is after time-end")
+	}
+}

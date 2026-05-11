@@ -45,6 +45,8 @@ func TestMaxLengthFilter_Match(t *testing.T) {
 		{"over limit", 5, "toolong", false},
 		{"empty line zero max", 0, "", true},
 		{"non-empty zero max", 0, "x", false},
+		{"unicode multibyte at limit", 4, "café", true},
+		{"unicode multibyte over limit", 3, "café", false},
 	}
 	for _, tc := range tests {
 		t.Run(tc.name, func(t *testing.T) {

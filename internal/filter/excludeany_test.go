@@ -82,3 +82,12 @@ func TestExcludeAnyFilter_InChain(t *testing.T) {
 		t.Error("expected chain to reject line with excluded term")
 	}
 }
+
+// TestExcludeAnyFilter_Match_EmptyLine verifies that an empty line is not
+// excluded when none of the terms match an empty string.
+func TestExcludeAnyFilter_Match_EmptyLine(t *testing.T) {
+	f, _ := filter.NewExcludeAnyFilter([]string{"ERROR", "WARN"}, false)
+	if !f.Match("") {
+		t.Error("expected empty line to pass through (not excluded)")
+	}
+}
